@@ -116,10 +116,11 @@ RULES:
 3. If customer says something vague like "burger", ask which one they want.
 4. If customer says "meal" or "combo", suggest a value meal.
 5. After adding items, ask "Anything else?" in their language.
-6. When customer says "that's it", "done", "no", "bas", or similar → set order_complete to true and give a summary with total.
+6. CRITICAL — ORDER COMPLETION: When the customer indicates they are done ordering, you MUST set "order_complete": true. Trigger phrases include but are not limited to: "that's it", "that's all", "nothing else", "no", "nahi", "bas", "done", "hogaya", "aur kuch nahi", "enough", "complete", "finish", "ok done", "no more", "basta", "avlo thaan", "adu saaku", "inka em vaddhu", "nope". When order_complete is true, give a SHORT thank you (1 sentence) — do NOT summarize the order or list items.
 7. Be warm, quick, and helpful — like a real McDonald's counter person.
 8. If size not specified for fries/drinks, default to Medium.
 9. Use menu item names as-is (don't translate McAloo Tikki etc.)
+10. Keep responses SHORT — 1-2 sentences max. Do not be verbose.
 
 CURRENT CART: ${JSON.stringify(cart || [])}
 
@@ -185,6 +186,28 @@ ITEM IDS: mcaloo-tikki, mcveggie, mcspicy-paneer, veg-maharaja, mcpuff-veg, mcch
         cart_updates: [],
         order_complete: false
       };
+    }
+
+    // ═══════════════════════════════════════════
+    // SAFEGUARD: Force order_complete if customer clearly said "done"
+    // The LLM sometimes forgets to set the flag even when responding
+    // with a completion message.
+    // ═══════════════════════════════════════════
+    if (!orderResult.order_complete && cart && cart.length > 0) {
+      const lower = customerText.toLowerCase();
+      const donePatterns = [
+        'that\'s it', 'that\'s all', 'thats it', 'thats all',
+        'nothing else', 'no more', 'done', 'finish', 'complete',
+        'bas', 'nahi', 'hogaya', 'ho gaya', 'aur kuch nahi', 'aur nahi',
+        'basta', 'avlo thaan', 'adu saaku', 'adu saku', 'inka em vaddhu',
+        'போதும்', 'அவ்வளவுதான்', 'சாகு', 'అంతే', 'ఇంకేం వద్దు',
+        'बस', 'हो गया', 'और कुछ नहीं', 'ಅಷ್ಟೇ', 'ಸಾಕು',
+        'thank you', 'thanks', 'धन्यवाद', 'ధన్యవాదాలు', 'நன்றி', 'ಧನ್ಯವಾದ'
+      ];
+      if (donePatterns.some(p => lower.includes(p))) {
+        console.log('[ORDER] SAFEGUARD: Forcing order_complete=true based on transcript');
+        orderResult.order_complete = true;
+      }
     }
 
     // ═══════════════════════════════════════════

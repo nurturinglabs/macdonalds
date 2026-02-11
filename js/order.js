@@ -411,11 +411,12 @@ async function handleOrderProcessing(audioBase64) {
 
     // Order complete?
     if (data.order_complete) {
+      // End session FIRST so mic never auto-restarts
+      isProcessing = false;
+      endSession();
       if (data.response_audio) {
         await playAudio(data.response_audio);
       }
-      isProcessing = false;
-      endSession();
       showConfirmSection();
       return;
     }
