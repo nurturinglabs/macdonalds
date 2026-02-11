@@ -188,7 +188,7 @@
 </head>
 <body>
   <nav class="kitchen-nav">
-    <h1>🍔 McDonald's Kitchen Display</h1>
+    <h1><img src="img/logo.svg" alt="" width="28" height="28" style="vertical-align: middle; margin-right: 6px;">McDonald's Kitchen Display</h1>
     <a href="index.html">← Back to Ordering</a>
   </nav>
 
@@ -297,6 +297,95 @@
       saveOrders(orders);
       renderOrders();
     }
+
+    // Seed demo orders on first visit
+    function seedDemoOrders() {
+      if (localStorage.getItem('mcd_demo_seeded')) return;
+      localStorage.setItem('mcd_demo_seeded', '1');
+
+      const now = Date.now();
+      const demo = [
+        {
+          id: '#1042',
+          status: 'ready',
+          language: 'kn-IN',
+          timestamp: new Date(now - 12 * 60000).toISOString(),
+          total: 478,
+          items: [
+            { item_id: 'mcspicy_paneer', item_name: 'McSpicy Paneer', quantity: 1, size: null, price: 189 },
+            { item_id: 'fries', item_name: 'Fries', quantity: 1, size: 'Large', price: 159 },
+            { item_id: 'coke', item_name: 'Coca-Cola', quantity: 1, size: 'Medium', price: 130 }
+          ]
+        },
+        {
+          id: '#1043',
+          status: 'ready',
+          language: 'hi-IN',
+          timestamp: new Date(now - 10 * 60000).toISOString(),
+          total: 418,
+          items: [
+            { item_id: 'chicken_maharaja', item_name: 'Chicken Maharaja Mac', quantity: 1, size: null, price: 249 },
+            { item_id: 'mcflurry', item_name: 'McFlurry Oreo', quantity: 1, size: null, price: 169 }
+          ]
+        },
+        {
+          id: '#1044',
+          status: 'preparing',
+          language: 'ta-IN',
+          timestamp: new Date(now - 7 * 60000).toISOString(),
+          total: 547,
+          items: [
+            { item_id: 'mcaloo_tikki', item_name: 'McAloo Tikki', quantity: 2, size: null, price: 59 },
+            { item_id: 'mcspicy_chicken', item_name: 'McSpicy Chicken', quantity: 1, size: null, price: 219 },
+            { item_id: 'fries', item_name: 'Fries', quantity: 1, size: 'Medium', price: 129 },
+            { item_id: 'hot_coffee', item_name: 'Hot Coffee', quantity: 1, size: null, price: 81 }
+          ]
+        },
+        {
+          id: '#1045',
+          status: 'preparing',
+          language: 'en-IN',
+          timestamp: new Date(now - 4 * 60000).toISOString(),
+          total: 577,
+          items: [
+            { item_id: 'big_spicy_paneer', item_name: 'Big Spicy Paneer Wrap', quantity: 1, size: null, price: 209 },
+            { item_id: 'chicken_mcnuggets', item_name: 'Chicken McNuggets', quantity: 1, size: '9 pcs', price: 239 },
+            { item_id: 'coke', item_name: 'Coca-Cola', quantity: 1, size: 'Large', price: 129 }
+          ]
+        },
+        {
+          id: '#1046',
+          status: 'new',
+          language: 'hi-IN',
+          timestamp: new Date(now - 2 * 60000).toISOString(),
+          total: 367,
+          items: [
+            { item_id: 'mcveggie', item_name: 'McVeggie', quantity: 1, size: null, price: 129 },
+            { item_id: 'pizza_mcpuff', item_name: 'Pizza McPuff', quantity: 2, size: null, price: 49 },
+            { item_id: 'mango_smoothie', item_name: 'Mango Smoothie', quantity: 1, size: null, price: 140 }
+          ]
+        },
+        {
+          id: '#1047',
+          status: 'new',
+          language: 'te-IN',
+          timestamp: new Date(now - 1 * 60000).toISOString(),
+          total: 488,
+          items: [
+            { item_id: 'chicken_maharaja', item_name: 'Chicken Maharaja Mac', quantity: 1, size: null, price: 249 },
+            { item_id: 'fries', item_name: 'Fries', quantity: 1, size: 'Large', price: 159 },
+            { item_id: 'sundae', item_name: 'Hot Fudge Sundae', quantity: 1, size: null, price: 80 }
+          ]
+        }
+      ];
+
+      saveOrders(demo);
+    }
+
+    // Clear stale data so demo seed runs
+    localStorage.removeItem('mcd_orders');
+    localStorage.removeItem('mcd_demo_seeded');
+    seedDemoOrders();
 
     // Initial render
     renderOrders();
