@@ -1,0 +1,14 @@
+{
+  "name": "mcdonalds-voice-order",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "description": "McDonald's India Voice Ordering Demo — Sarvam Bulbul Challenge",
+  "dependencies": {
+    "form-data": "^4.0.5",
+    "node-fetch": "^2.7.0"
+  }
+}

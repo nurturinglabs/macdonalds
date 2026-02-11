@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)",
+      "Bash(for port in 3001 3002 4000 5000 8080 8000)",
+      "Bash(do lsof -i :$port)",
+      "Bash(echo:*)",
+      "Bash(done)",
+      "Bash(curl:*)",
+      "WebFetch(domain:docs.sarvam.ai)",
+      "Bash(xargs kill:*)",
+      "Bash(node:*)",
+      "Bash(python3:*)"
+    ]
+  }
+}

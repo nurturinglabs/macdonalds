@@ -1,0 +1,5 @@
+node_modules/
+.vercel/
+.env
+.env.local
+MCDONALDS_VOICE_ORDER_BUILD_INSTRUCTIONS.md

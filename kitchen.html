@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>McDonald's Kitchen Display</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --mcd-red: #DA291C;
+      --mcd-yellow: #FFC72C;
+      --bg-dark: #111111;
+      --card-bg: #1E1E1E;
+      --border: #333;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: white;
+      min-height: 100vh;
+    }
+
+    .kitchen-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: var(--mcd-red);
+    }
+
+    .kitchen-nav h1 {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .kitchen-nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 6px 14px;
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 6px;
+    }
+
+    .kitchen-stats {
+      display: flex;
+      gap: 24px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--mcd-yellow);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      opacity: 0.6;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      padding: 24px;
+    }
+
+    .order-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      border: 2px solid var(--border);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .order-card.new { border-color: var(--mcd-red); }
+    .order-card.preparing { border-color: var(--mcd-yellow); }
+    .order-card.ready { border-color: #4CAF50; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .order-id {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .order-status {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    .order-status.new { background: var(--mcd-red); }
+    .order-status.preparing { background: var(--mcd-yellow); color: #1A1A1A; }
+    .order-status.ready { background: #4CAF50; }
+
+    .order-items {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+
+    .order-items li {
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .order-items li:last-child { border-bottom: none; }
+
+    .order-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .order-total {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--mcd-yellow);
+    }
+
+    .order-lang {
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    .order-time {
+      font-size: 12px;
+      opacity: 0.5;
+    }
+
+    .order-btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .order-btn.start { background: var(--mcd-yellow); color: #1A1A1A; }
+    .order-btn.done { background: #4CAF50; color: white; }
+    .order-btn.clear { background: #666; color: white; }
+
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      opacity: 0.4;
+    }
+
+    .empty-state h2 { font-size: 24px; margin-bottom: 8px; }
+    .empty-state p { font-size: 14px; }
+
+    .lang-names {
+      font-family: 'Noto Sans', 'Noto Sans Kannada', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <nav class="kitchen-nav">
+    <h1>🍔 McDonald's Kitchen Display</h1>
+    <a href="index.html">← Back to Ordering</a>
+  </nav>
+
+  <div class="kitchen-stats">
+    <div class="stat">
+      <div class="stat-num" id="stat-total">0</div>
+      <div class="stat-label">Total Orders</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="stat-new">0</div>
+      <div class="stat-label">New</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="stat-preparing">0</div>
+      <div class="stat-label">Preparing</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="stat-ready">0</div>
+      <div class="stat-label">Ready</div>
+    </div>
+  </div>
+
+  <div class="orders-grid" id="orders-grid">
+    <div class="empty-state">
+      <h2>No orders yet</h2>
+      <p>Orders placed via voice will appear here in real time</p>
+    </div>
+  </div>
+
+  <script>
+    const LANG_NAMES = {
+      'hi-IN': 'हिन्दी', 'kn-IN': 'ಕನ್ನಡ', 'ta-IN': 'தமிழ்',
+      'te-IN': 'తెలుగు', 'ml-IN': 'മലയാളം', 'bn-IN': 'বাংলা',
+      'mr-IN': 'मराठी', 'gu-IN': 'ગુજરાતી', 'od-IN': 'ଓଡ଼ିଆ',
+      'pa-IN': 'ਪੰਜਾਬੀ', 'en-IN': 'English'
+    };
+
+    function loadOrders() {
+      return JSON.parse(localStorage.getItem('mcd_orders') || '[]');
+    }
+
+    function saveOrders(orders) {
+      localStorage.setItem('mcd_orders', JSON.stringify(orders));
+    }
+
+    function renderOrders() {
+      const orders = loadOrders();
+      const grid = document.getElementById('orders-grid');
+
+      if (orders.length === 0) {
+        grid.innerHTML = `<div class="empty-state">
+          <h2>No orders yet</h2>
+          <p>Orders placed via voice will appear here in real time</p>
+        </div>`;
+        updateStats(orders);
+        return;
+      }
+
+      grid.innerHTML = orders.map((order, idx) => {
+        const time = new Date(order.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const langName = LANG_NAMES[order.language] || order.language || 'English';
+
+        return `<div class="order-card ${order.status}">
+          <div class="order-header">
+            <span class="order-id">${order.id}</span>
+            <span class="order-status ${order.status}">${order.status.toUpperCase()}</span>
+          </div>
+          <ul class="order-items">
+            ${order.items.map(item =>
+              `<li><span>${item.quantity}x ${item.item_name}${item.size ? ' (' + item.size + ')' : ''}</span><span>₹${item.price * item.quantity}</span></li>`
+            ).join('')}
+          </ul>
+          <div class="order-footer">
+            <span class="order-total">₹${order.total}</span>
+            <span class="order-lang lang-names">${langName}</span>
+            <span class="order-time">${time}</span>
+          </div>
+          ${order.status === 'new' ? `<button class="order-btn start" onclick="updateStatus(${idx}, 'preparing')">Start Preparing</button>` : ''}
+          ${order.status === 'preparing' ? `<button class="order-btn done" onclick="updateStatus(${idx}, 'ready')">Mark Ready</button>` : ''}
+          ${order.status === 'ready' ? `<button class="order-btn clear" onclick="removeOrder(${idx})">Clear</button>` : ''}
+        </div>`;
+      }).join('');
+
+      updateStats(orders);
+    }
+
+    function updateStats(orders) {
+      document.getElementById('stat-total').textContent = orders.length;
+      document.getElementById('stat-new').textContent = orders.filter(o => o.status === 'new').length;
+      document.getElementById('stat-preparing').textContent = orders.filter(o => o.status === 'preparing').length;
+      document.getElementById('stat-ready').textContent = orders.filter(o => o.status === 'ready').length;
+    }
+
+    function updateStatus(idx, newStatus) {
+      const orders = loadOrders();
+      if (orders[idx]) {
+        orders[idx].status = newStatus;
+        saveOrders(orders);
+        renderOrders();
+      }
+    }
+
+    function removeOrder(idx) {
+      const orders = loadOrders();
+      orders.splice(idx, 1);
+      saveOrders(orders);
+      renderOrders();
+    }
+
+    // Initial render
+    renderOrders();
+
+    // Poll for new orders every 2 seconds
+    setInterval(renderOrders, 2000);
+  </script>
+</body>
+</html>

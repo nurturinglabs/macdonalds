@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>McDonald's India — Voice Ordering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <span class="logo">🍔</span>
+      <span class="brand">McDonald's <em>India</em></span>
+    </div>
+    <div class="nav-center">
+      <a href="#veg-burgers" class="nav-link">Veg</a>
+      <a href="#nonveg-burgers" class="nav-link">Non-Veg</a>
+      <a href="#sides" class="nav-link">Sides</a>
+      <a href="#drinks" class="nav-link">Drinks</a>
+      <a href="#desserts" class="nav-link">Desserts</a>
+    </div>
+    <div class="nav-right">
+      <span class="location-badge">📍 Demo Location</span>
+      <a href="kitchen.html" class="kitchen-link">Kitchen Display →</a>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-container">
+    <!-- LEFT: MENU AREA -->
+    <div class="menu-area">
+      <!-- TODAY'S SPECIALS -->
+      <div class="specials-bar" id="specials-bar">
+        <h3 class="specials-title translatable-ui" data-key="Today's Specials">Today's Specials</h3>
+        <div class="specials-list">
+          <div class="special">
+            <span class="special-badge">①</span>
+            <span class="special-name">McSpicy Paneer</span>
+            <span class="special-desc translatable-desc" data-original="Crispy paneer with tandoori sauce">— Crispy paneer with tandoori sauce</span>
+          </div>
+          <div class="special">
+            <span class="special-badge">②</span>
+            <span class="special-name">Chicken Maharaja Mac</span>
+            <span class="special-desc translatable-desc" data-original="India's Big Mac with two chicken patties">— India's Big Mac with two chicken patties</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MENU GRID -->
+      <div class="menu-grid" id="menu-grid">
+        <!-- Rendered by js/menu.js -->
+      </div>
+    </div>
+
+    <!-- RIGHT: ORDER PANEL -->
+    <div class="order-panel" id="order-panel">
+      <!-- COMPACT VOICE BAR -->
+      <div class="voice-bar">
+        <button class="mic-button" id="mic-btn" aria-label="Tap to start">
+          <svg class="mic-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+        <div class="voice-bar-info">
+          <span class="mic-label" id="mic-label">Tap to start</span>
+          <div class="waveform" id="waveform">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          </div>
+        </div>
+        <div class="language-badge" id="language-badge" style="display: none;"></div>
+      </div>
+
+      <!-- CONVERSATION (compact scrollable) -->
+      <div class="conversation-area" id="conversation">
+      </div>
+
+      <!-- CART -->
+      <div class="cart-section">
+        <h3 class="cart-title" id="cart-title">🛒 Your Order</h3>
+        <div class="cart-items" id="cart-items">
+          <div class="cart-empty">Your cart is empty<br>Tap the mic to order by voice</div>
+        </div>
+        <div class="cart-total" id="cart-total" style="display: none;">
+          <span>Total:</span>
+          <span id="cart-total-amount">₹0</span>
+        </div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="order-actions" id="confirm-section" style="display: none;">
+        <button class="confirm-btn" id="confirm-btn">✅ Confirm Order</button>
+        <button class="add-more-btn" id="add-more-btn">🎤 Add more items</button>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="panel-footer">
+        <span>Powered by <strong>Sarvam AI</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE OVERLAY -->
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <span>🍔 McDonald's India — Voice Ordering Demo</span>
+      <span class="footer-tagline">What if McDonald's let you order in your language?</span>
+    </div>
+    <div class="footer-sarvam">
+      🎙️ Built with Sarvam AI — Saarika · Sarvam-M · Translate · Bulbul V3
+      <br>
+      #TheMicIsYours · Bulbul Challenge 2025
+    </div>
+    <div class="footer-languages">
+      हिन्दी · ಕನ್ನಡ · தமிழ் · తెలుగు · മലയാളം · বাংলা · मराठी · ગુજરાતી · ଓଡ଼ିଆ · ਪੰਜਾਬੀ
+    </div>
+  </footer>
+
+  <!-- ORDER CONFIRMED MODAL -->
+  <div class="order-modal" id="order-modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-icon">✅</div>
+      <h2>Order Confirmed!</h2>
+      <p id="modal-summary"></p>
+      <div class="modal-order-id" id="modal-order-id"></div>
+      <button class="modal-close-btn" id="modal-close-btn">New Order</button>
+    </div>
+  </div>
+
+  <script src="js/menu.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/order.js"></script>
+</body>
+</html>
